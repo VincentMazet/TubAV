@@ -36,7 +36,7 @@ public class LineRepositoryImpl implements LineRepository {
 
 
 
-    public static final String CREATE_TABLE_HOUR =
+    public static final String CREATE_TABLE_LINE =
             String.format("CREATE TABLE %s ( %s INTEGER primary key, %s TEXT, %s TEXT, %s TEXT );",
                     TABLE_NAME,
                     KEY_ID,
@@ -105,9 +105,6 @@ public class LineRepositoryImpl implements LineRepository {
         values.put(KEY_ID, line.getId());
         values.put(KEY_NAME, line.getName());
         values.put(KEY_DESCRIPTION, line.getDescription());
-
-
-
 
         ObjectMapper objMapper = new ObjectMapper();
         List<Integer> idStops = new ArrayList<>();

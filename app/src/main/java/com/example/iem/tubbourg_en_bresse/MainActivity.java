@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
         mapView = (MapView) findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
 
+        
+
         // Gets to GoogleMap from the MapView and does initialization stuff
 
         mapView.getMapAsync(new OnMapReadyCallback() {
