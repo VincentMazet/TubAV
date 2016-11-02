@@ -19,6 +19,7 @@ import com.google.maps.android.kml.KmlLayer;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     MapView mapView;
@@ -42,7 +43,13 @@ public class MainActivity extends AppCompatActivity {
         if (c.moveToFirst())
         {
             do {
-                Log.d("VALEUR",stopRepo.getStop(0).getName());
+                ArrayList<String> mArrayList = new ArrayList<String>();
+                Cursor cursor = stopRepo.getAllStop();
+                while(cursor.moveToNext()) {
+                    mArrayList.add(cursor.getString(cursor.getColumnIndex("name"))); //add the item
+                }
+
+                Log.d("VALEUR",""+ mArrayList.get(0));
             }
             while (c.moveToNext());
         }
