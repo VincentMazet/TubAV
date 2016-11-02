@@ -11,7 +11,6 @@ public class Line {
     private int id;
     private String name;
     private String description;
-    private List<Stop> stops;
 
     public Line(){
 
@@ -41,11 +40,4 @@ public class Line {
         this.description = description;
     }
 
-    public List<Stop> getStops() {
-        return stops;
-    }
-
-    public void setStops(List<Stop> stops) {
-        this.stops = stops;
-    }
 }

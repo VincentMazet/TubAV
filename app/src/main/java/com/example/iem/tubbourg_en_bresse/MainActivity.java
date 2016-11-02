@@ -1,8 +1,13 @@
 package com.example.iem.tubbourg_en_bresse;
 
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.example.iem.tubbourg_en_bresse.Entities.Stop;
+import com.example.iem.tubbourg_en_bresse.Repository.StopRepository;
+import com.example.iem.tubbourg_en_bresse.Repository.StopRepositoryImpl;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -25,7 +30,25 @@ public class MainActivity extends AppCompatActivity {
         mapView = (MapView) findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
 
-        
+        StopRepositoryImpl stopRepo = new StopRepositoryImpl(this);
+        // ouverture de la table en lecture/écriture
+        stopRepo.open();
+        // insertion. L'id sera attribué automatiquement par incrément
+        stopRepo.addStop(new Stop("Test","ceci est un stop de test",new LatLng(46.207337, 5.227646)));
+
+
+        // Listing des enregistrements de la table
+        Cursor c = stopRepo.getAllStop();
+        if (c.moveToFirst())
+        {
+            do {
+                Log.d("VALEUR",stopRepo.getStop(0).getName());
+            }
+            while (c.moveToNext());
+        }
+        c.close();
+        stopRepo.close();
+
 
         // Gets to GoogleMap from the MapView and does initialization stuff
 
@@ -40,32 +63,9 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-//                LatLng sydney = new LatLng(-33.867, 151.206);
-//                map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
-//
-//                map.addMarker(new MarkerOptions()
-//                        .title("Sydney")
-//                        .snippet("The most populous city in Australia.")
-//                        .position(sydney));
-
             }
         });
 mapView.onResume();
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 }

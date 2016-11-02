@@ -17,6 +17,13 @@ public class Stop {
 
     }
 
+    public Stop(String name, String description, LatLng gpsCoord){
+        this.name = name;
+        this.description = description;
+        this.gpsCoord = gpsCoord;
+    }
+
+
     public int getId(){
         return id;
     }
