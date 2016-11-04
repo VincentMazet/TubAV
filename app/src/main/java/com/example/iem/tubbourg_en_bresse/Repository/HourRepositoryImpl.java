@@ -7,8 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.iem.tubbourg_en_bresse.Entities.Hour;
 import com.example.iem.tubbourg_en_bresse.Entities.Stop;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.ArrayType;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by iem on 19/10/2016.
@@ -76,7 +83,15 @@ public class HourRepositoryImpl implements HourRepository {
         values.put(KEY_ID, hour.getId());
         values.put(KEY_STOP, hour.getStop().getId());
         values.put(KEY_LINE, hour.getLine().getId());
-        values.put(KEY_HOUR, hour.getHour().getTime());
+        ObjectMapper mapper = new ObjectMapper();
+
+        String json = "";
+        try {
+            json = mapper.writeValueAsString(hour.getHour());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        values.put(KEY_HOUR, json);
 
         String where = KEY_ID + " = ?";
         String[] whereArgs = { hour.getId() + "" };
@@ -104,7 +119,7 @@ public class HourRepositoryImpl implements HourRepository {
             hour.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
             hour.setStop(stopRepository.getStop(cursor.getInt(cursor.getColumnIndex(KEY_STOP))));
             hour.setLine(lineRepository.getLine(cursor.getInt(cursor.getColumnIndex(KEY_LINE))));
-            hour.setHour(new Date(cursor.getLong(cursor.getColumnIndex(KEY_HOUR))));
+            hour.setHour(cursor.getString(cursor.getColumnIndex(KEY_HOUR)));
 
             cursor.close();
         }

@@ -1,6 +1,9 @@
 package com.example.iem.tubbourg_en_bresse.Entities;
 
 import java.util.Date;
+import java.util.List;
+
+import static android.R.id.list;
 
 /**
  * Created by iem on 18/10/2016.
@@ -11,7 +14,7 @@ public class Hour {
     private int id;
     private Stop stop;
     private Line line;
-    private Date hour;
+    private String hour;
 
     public Hour(){
 
@@ -41,11 +44,11 @@ public class Hour {
         this.line = line;
     }
 
-    public Date getHour() {
+    public String getHour() {
         return hour;
     }
 
-    public void setHour(Date hour) {
+    public void setHour(String hour) {
         this.hour = hour;
     }
 }

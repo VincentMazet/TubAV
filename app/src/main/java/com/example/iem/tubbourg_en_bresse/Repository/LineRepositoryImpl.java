@@ -32,17 +32,15 @@ public class LineRepositoryImpl implements LineRepository {
     private static final String KEY_ID = "id";
     private static final String KEY_NAME ="name";
     private static final String KEY_DESCRIPTION = "description";
-    private static final String KEY_STOPS = "stops";
 
 
 
-    public static final String CREATE_TABLE_HOUR =
-            String.format("CREATE TABLE %s ( %s INTEGER primary key, %s TEXT, %s TEXT, %s TEXT );",
+    public static final String CREATE_TABLE_LINE =
+            String.format("CREATE TABLE %s ( %s INTEGER primary key, %s TEXT, %s TEXT);",
                     TABLE_NAME,
                     KEY_ID,
                     KEY_NAME,
-                    KEY_DESCRIPTION,
-                    KEY_STOPS);
+                    KEY_DESCRIPTION);
 
     private MySQLite dbSQLite;
     private SQLiteDatabase db;
@@ -71,29 +69,6 @@ public class LineRepositoryImpl implements LineRepository {
         values.put(KEY_NAME, line.getName());
         values.put(KEY_DESCRIPTION, line.getDescription());
 
-        JSONObject jo = new JSONObject();
-        JSONArray ja = new JSONArray();
-
-        try {
-            for(Stop stop : line.getStops()){
-                jo.put("idStop", stop.getId());
-                ja.put(jo);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JSONObject mainObj = new JSONObject();
-
-        try {
-            mainObj.put("stops", ja);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        values.put(KEY_STOPS, mainObj.toString());
-
-
         return db.insert(TABLE_NAME, null, values);
     }
 
@@ -105,23 +80,6 @@ public class LineRepositoryImpl implements LineRepository {
         values.put(KEY_ID, line.getId());
         values.put(KEY_NAME, line.getName());
         values.put(KEY_DESCRIPTION, line.getDescription());
-
-
-
-
-        ObjectMapper objMapper = new ObjectMapper();
-        List<Integer> idStops = new ArrayList<>();
-        for(Stop stop : line.getStops()){
-            idStops.add(stop.getId());
-        }
-        String jsonString = "";
-        try {
-            jsonString = objMapper.writeValueAsString(idStops);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        values.put(KEY_STOPS, jsonString);
 
         String where = KEY_ID + " = ?";
         String[] whereArgs = { line.getId() + "" };
@@ -149,23 +107,6 @@ public class LineRepositoryImpl implements LineRepository {
             line.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
             line.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
             line.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
-
-            ObjectMapper mapper = new ObjectMapper();
-            List<Integer> results = new ArrayList<>();
-            try {
-                results = mapper.readValue(cursor.getString(cursor.getColumnIndex(KEY_STOPS)), new TypeReference<List<Integer>>() {});
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            List<Stop> stops = new ArrayList<>();
-
-            for(Integer integer: results){
-                stops.add(stopRepository.getStop(integer));
-            }
-
-            line.setStops(stops);
-
 
             cursor.close();
         }

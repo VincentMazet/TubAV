@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.iem.tubbourg_en_bresse.Entities.Stop;
 
@@ -13,12 +14,12 @@ import com.example.iem.tubbourg_en_bresse.Entities.Stop;
 
 public class StopRepositoryImpl implements StopRepository {
 
-    private static final String TABLE_NAME = "stop";
-    private static final String KEY_ID = "id";
-    private static final String KEY_NAME ="name";
-    private static final String KEY_DESCRIPTION = "description";
-    private static final String KEY_LATITUDE = "latitude";
-    private static final String KEY_LONGITUDE = "longitude";
+    public static final String TABLE_NAME = "stop";
+    public static final String KEY_ID = "id";
+    public static final String KEY_NAME ="name";
+    public static final String KEY_DESCRIPTION = "description";
+    public static final String KEY_LATITUDE = "latitude";
+    public static final String KEY_LONGITUDE = "longitude";
 
     public static final String CREATE_TABLE_STOP =
             String.format("CREATE TABLE %s ( %s INTEGER primary key, %s TEXT, %s TEXT, %s TEXT, %s TEXT );",
@@ -52,7 +53,6 @@ public class StopRepositoryImpl implements StopRepository {
 
         ContentValues values = new ContentValues();
 
-        values.put(KEY_ID, stop.getId());
         values.put(KEY_NAME, stop.getName());
         values.put(KEY_DESCRIPTION, stop.getDescription());
         values.put(KEY_LATITUDE, stop.getGpsCoord().latitude);
@@ -99,8 +99,8 @@ public class StopRepositoryImpl implements StopRepository {
             stop.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
             stop.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
             stop.setGpsCoord(
-                    Double.parseDouble(cursor.getString(cursor.getColumnIndex(KEY_NAME))),
-                    Double.parseDouble(cursor.getString(cursor.getColumnIndex(KEY_NAME)))
+                    Double.parseDouble(cursor.getString(cursor.getColumnIndex(KEY_LATITUDE))),
+                    Double.parseDouble(cursor.getString(cursor.getColumnIndex(KEY_LONGITUDE)))
                     );
 
             cursor.close();

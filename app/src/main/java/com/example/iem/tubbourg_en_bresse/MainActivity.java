@@ -1,8 +1,13 @@
 package com.example.iem.tubbourg_en_bresse;
 
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.example.iem.tubbourg_en_bresse.Entities.Stop;
+import com.example.iem.tubbourg_en_bresse.Repository.StopRepository;
+import com.example.iem.tubbourg_en_bresse.Repository.StopRepositoryImpl;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -14,6 +19,8 @@ import com.google.maps.android.kml.KmlLayer;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     MapView mapView;
@@ -24,6 +31,37 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mapView = (MapView) findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
+        Date date = new Date();
+
+
+        Log.d("Format date",date.toString());
+
+        StopRepositoryImpl stopRepo = new StopRepositoryImpl(this);
+        // ouverture de la table en lecture/écriture
+        stopRepo.open();
+        // insertion. L'id sera attribué automatiquement par incrément
+
+
+
+
+        // Listing des enregistrements de la table
+        Cursor c = stopRepo.getAllStop();
+        if (c.moveToFirst())
+        {
+            do {
+                ArrayList<String> mArrayList = new ArrayList<String>();
+                Cursor cursor = stopRepo.getAllStop();
+                while(cursor.moveToNext()) {
+                    mArrayList.add(cursor.getString(cursor.getColumnIndex("name"))); //add the item
+                }
+
+                Log.d("VALEUR",""+ mArrayList.size());
+            }
+            while (c.moveToNext());
+        }
+        c.close();
+        stopRepo.close();
+
 
         // Gets to GoogleMap from the MapView and does initialization stuff
 
@@ -38,32 +76,9 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-//                LatLng sydney = new LatLng(-33.867, 151.206);
-//                map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
-//
-//                map.addMarker(new MarkerOptions()
-//                        .title("Sydney")
-//                        .snippet("The most populous city in Australia.")
-//                        .position(sydney));
-
             }
         });
 mapView.onResume();
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 }
