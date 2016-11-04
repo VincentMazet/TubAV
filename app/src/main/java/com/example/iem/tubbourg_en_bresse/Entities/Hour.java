@@ -14,7 +14,7 @@ public class Hour {
     private int id;
     private Stop stop;
     private Line line;
-    private List<Date> hour;
+    private String hour;
 
     public Hour(){
 
@@ -44,11 +44,11 @@ public class Hour {
         this.line = line;
     }
 
-    public List<Date> getHour() {
+    public String getHour() {
         return hour;
     }
 
-    public void setHour(List<Date> hour) {
+    public void setHour(String hour) {
         this.hour = hour;
     }
 }

@@ -20,6 +20,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     MapView mapView;
@@ -30,12 +31,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mapView = (MapView) findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
+        Date date = new Date();
+
+
+        Log.d("Format date",date.toString());
 
         StopRepositoryImpl stopRepo = new StopRepositoryImpl(this);
         // ouverture de la table en lecture/écriture
         stopRepo.open();
         // insertion. L'id sera attribué automatiquement par incrément
-        stopRepo.addStop(new Stop("Test","ceci est un stop de test",new LatLng(46.207337, 5.227646)));
+
+
 
 
         // Listing des enregistrements de la table
@@ -49,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     mArrayList.add(cursor.getString(cursor.getColumnIndex("name"))); //add the item
                 }
 
-                Log.d("VALEUR",""+ mArrayList.get(0));
+                Log.d("VALEUR",""+ mArrayList.size());
             }
             while (c.moveToNext());
         }

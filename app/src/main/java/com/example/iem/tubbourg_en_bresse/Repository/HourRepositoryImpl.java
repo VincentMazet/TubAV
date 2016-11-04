@@ -119,16 +119,7 @@ public class HourRepositoryImpl implements HourRepository {
             hour.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
             hour.setStop(stopRepository.getStop(cursor.getInt(cursor.getColumnIndex(KEY_STOP))));
             hour.setLine(lineRepository.getLine(cursor.getInt(cursor.getColumnIndex(KEY_LINE))));
-            ObjectMapper mapper = new ObjectMapper();
-
-            List<Date> results = new ArrayList<>();
-            try {
-                results = mapper.readValue(cursor.getString(cursor.getColumnIndex(KEY_HOUR)), new TypeReference<List<Date>>() { } );
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            hour.setHour(results);
+            hour.setHour(cursor.getString(cursor.getColumnIndex(KEY_HOUR)));
 
             cursor.close();
         }
