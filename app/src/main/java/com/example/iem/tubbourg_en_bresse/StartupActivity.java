@@ -8,10 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class menu extends AppCompatActivity {
+public class StartupActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     @Override
@@ -24,7 +23,7 @@ public class menu extends AppCompatActivity {
 
     }
     public void goToMenuTrajet(View v){
-        Intent intent = new Intent(this,menuTrajet.class);
+        Intent intent = new Intent(this,FindTravel.class);
         startActivity(intent);
     }
     public void goToLigne(View v){

@@ -22,7 +22,7 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".menu">
+        <activity android:name=".StartupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,8 +30,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".menuTrajet" />
-        <activity android:name=".selectStops"></activity>
+        <activity android:name=".FindTravel" />
+        <activity android:name=".SelectStops"></activity>
     </application>
 
 </manifest>

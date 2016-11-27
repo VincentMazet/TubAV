@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class selectStops extends AppCompatActivity {
+public class SelectStops extends AppCompatActivity {
     MapView mapView;
     Button btn8;
     String arret;
